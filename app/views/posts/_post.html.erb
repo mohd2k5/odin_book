@@ -1,0 +1,39 @@
+<div class="post-card">
+  <div class="post-actions">
+    <% if post.likes.exists?(user: current_user) %>
+      <%= button_to post_like_path(post),
+                    method: :delete,
+                    class: "like-btn liked" do %>
+        ❤️ <%= post.likes.count %>
+      <% end %>
+    <% else %>
+      <%= button_to post_like_path(post),
+                    method: :post,
+                    class: "like-btn" do %>
+        🤍 <%= post.likes.count %>
+      <% end %>
+    <% end %>
+
+    <%= link_to post_path(post, anchor: "comments"),
+                class: "comment-btn" do %>
+      💬 <%= post.comments.count %>
+    <% end %>
+  </div>
+
+  <%= link_to post_path(post), class: "post-main-link" do %>
+    <div class="post-meta">
+      <div class="post-user">
+        @<%= post.user.user_name %>
+      </div>
+
+      <div class="post-date">
+        <%= time_ago_in_words(post.created_at) %> ago
+      </div>
+    </div>
+
+    <p class="post-caption">
+      <br>
+      <%= post.caption %>
+    </p>
+  <% end %>
+</div>

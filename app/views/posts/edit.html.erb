@@ -1,0 +1,9 @@
+<h1 class="page-title">Edit Post</h1>
+
+<div class="form-card">
+  <%= render "form", post: @post %>
+</div>
+
+<div class="post-edits">
+  <%= link_to "← Back", "#", onclick: "history.back(); return false;" %>
+</div>

@@ -1,0 +1,36 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @post %>
+
+<div id="comments" class="comments-section">
+  <h2>Comments</h2>
+
+  <%= form_with model: [@post, Comment.new], class: "comment-form" do |form| %>
+    <%= form.text_area :content,
+                       placeholder: "Write a comment...",
+                       class: "comment-input" %>
+
+    <%= form.submit "Comment", class: "submit-btn" %>
+  <% end %>
+
+  <% @post.comments.each do |comment| %>
+    <div class="comment-card">
+      <strong>@<%= comment.user.user_name %></strong>
+      <p><%= comment.content %></p>
+    </div>
+  <% end %>
+</div>
+
+<div class="post-edits">
+  <%= link_to "✏️ Edit", edit_post_path(@post), class: "action-btn edit-btn" %>
+
+  <%= button_to "🗑️ Delete",
+                @post,
+                method: :delete,
+                class: "action-btn delete-btn",
+                form: { data: { turbo_confirm: "Are you sure?" } } %>
+</div>
+
+<div class="post-edits">
+  <%= link_to "← Back", "#", onclick: "history.back(); return false;" %>
+</div>

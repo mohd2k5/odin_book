@@ -1,0 +1,58 @@
+<header class="site-header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <%= link_to "Odinbook", root_path, class: "logo" %>
+    </div>
+
+    <% if user_signed_in? %>
+      <div class="navbar-links">
+        <div class="navbar-search">
+          <%= form_with url: users_path, method: :get, local: true do |f| %>
+            <%= f.text_field :query,
+                placeholder: "Search users...",
+                value: params[:query],
+                class: "search-input" %>
+
+            <%= f.submit "Search", class: "search-button" %>
+          <% end %>
+        </div>
+
+        <%= link_to "Feed", posts_path, class: "nav-link" %>
+
+        <%= link_to "Profile",
+            user_path(current_user),
+            class: "nav-link" %>
+
+        <% pending_requests = current_user.received_follows.pending.count %>
+
+        <% if pending_requests.positive? %>
+          <%= link_to "Requests (#{pending_requests})",
+              follow_requests_path,
+              class: "nav-link" %>
+        <% end %>
+
+        <%= link_to "New Post",
+            new_post_path,
+            class: "nav-button" %>
+      </div>
+
+      <div class="navbar-user">
+        <%= button_to "Sign out",
+            destroy_user_session_path,
+            method: :delete,
+            class: "sign-out-button" %>
+      </div>
+
+    <% else %>
+      <div class="navbar-links">
+        <%= link_to "Sign in",
+            new_user_session_path,
+            class: "nav-link" %>
+
+        <%= link_to "Sign up",
+            new_user_registration_path,
+            class: "nav-button" %>
+      </div>
+    <% end %>
+  </nav>
+</header>

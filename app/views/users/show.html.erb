@@ -1,0 +1,29 @@
+<div class="page-title">
+  <%= gravatar_for(@user, size: 120) %>
+
+  <h1>@<%= @user.user_name %></h1>
+
+  <div class="profile-stats">
+      <span><strong><%= @user.posts.count %></strong> posts</span>
+      <span><strong><%= @user.followers.count %></strong> followers</span>
+      <span><strong><%= @user.following.count %></strong> following</span>
+  </div>
+
+  <% unless @user == current_user %>
+    <% follow = current_user.sent_follows.find_by(followed: @user) %>
+
+    <% if follow&.accepted? %>
+      <p>You are following this user.</p>
+    <% elsif follow&.pending? %>
+      <p>Follow request pending.</p>
+    <% else %>
+      <%= button_to "Follow", follows_path(user_id: @user.id), method: :post %>
+    <% end %>
+  <% end %>
+</div>
+
+<div id="posts">
+  <% @posts.each do |post| %>
+    <%= render post %>
+  <% end %>
+</div>
